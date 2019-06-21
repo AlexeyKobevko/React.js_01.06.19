@@ -7,11 +7,15 @@ import ReactDom from 'react-dom';
 
 import { Gallery } from './components/Gallery';
 import { Profile } from './components/Profile';
+import { Auth } from './components/Auth';
+import { Counter } from './components/Counter';
+import { Timer } from './components/Timer';
 
 class App extends Component {
     render() {
         return (
             <div>
+                <Auth />
                 <header>
                 <div className="container">
                     <Profile />

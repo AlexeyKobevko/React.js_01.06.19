@@ -3,28 +3,46 @@
 import './Auth.scss';
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+
+import { Button } from '../Button';
 
 export class Auth extends Component {
+  state = {
+    username: '',
+    password: '',
+  }
+
+  handleSignIn = () => {
+    const { username, password } = this.state;
+    fetch('http://localhost:8888/auth', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({username, password}),
+    })
+      .then(response => response.json)
+      .then(data => console.log(data));
+  }
+
+  handleTextChange = ({ target: { name, value } }) => {
+    this.setState({
+      [name]: value,
+    });
+  }
+
     render() {
+      const { username, password } = this.state;
         return (
-            <div class="login-page">
-  <div class="form">
-    <form class="register-form">
-      <input type="text" placeholder="name"/>
-      <input type="password" placeholder="password"/>
-      <input type="text" placeholder="email address"/>
-      <button>create</button>
-      <p class="message">Already registered? <a href="#">Sign In</a></p>
-    </form>
-    <form class="login-form">
-      <input type="text" placeholder="username"/>
-      <input type="password" placeholder="password"/>
-      <button>login</button>
-      <p class="message">Not registered? <a href="#">Create an account</a></p>
-    </form>
-  </div>
-</div>
+            <div className="login-page">
+              <div className="form">
+                <form className="login-form">
+                  <input onChange={this.handleTextChange} name="username" type="text" placeholder="username" value={username} />
+                  <input onChange={this.handleTextChange} name="password" type="password" placeholder="password" value={password} />
+                  <Button buttonName="btn login-btn" buttonContent="sign in" onclick={this.handleSignIn} />
+                </form>
+              </div>
+            </div>
         );
     }
 }

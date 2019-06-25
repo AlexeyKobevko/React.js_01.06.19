@@ -12,21 +12,26 @@ import { Counter } from './components/Counter';
 import { Timer } from './components/Timer';
 
 class App extends Component {
+    state = { token: null };
+
+    handleTogleClick = () => {
+        this.setState(prevState => ({ visible: !prevState.visible }));
+    }
+
+    handleSuccess = (token) => {
+        this.setState({token});
+    }
+
     render() {
+        const { token } = this.state;
         return (
-            <div>
-                <Auth />
-                <header>
-                <div className="container">
-                    <Profile />
-                </div>
-            </header>
             <main>
-                <div className="container">
-                    <Gallery />
-                </div>
+                {!token && <Auth onSuccess={this.handleSuccess} />}
+                {token && <div className="container">
+                    <Profile />
+                    <Gallery token={token} />
+                </div>}
             </main>
-            </div>
         );
     }
 }

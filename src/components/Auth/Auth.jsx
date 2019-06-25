@@ -14,6 +14,8 @@ export class Auth extends Component {
 
   handleSignIn = () => {
     const { username, password } = this.state;
+    const { onSuccess } = this.props;
+
     fetch('http://localhost:8888/auth', {
       method: 'POST',
       headers: {
@@ -21,8 +23,10 @@ export class Auth extends Component {
       },
       body: JSON.stringify({username, password}),
     })
-      .then(response => response.json)
-      .then(data => console.log(data));
+      .then(response => response.json())
+      .then((data) => {
+        onSuccess(data.token);
+      });
   }
 
   handleTextChange = ({ target: { name, value } }) => {
@@ -36,11 +40,12 @@ export class Auth extends Component {
         return (
             <div className="login-page">
               <div className="form">
-                <form className="login-form">
+                <div className="login-form">
                   <input onChange={this.handleTextChange} name="username" type="text" placeholder="username" value={username} />
                   <input onChange={this.handleTextChange} name="password" type="password" placeholder="password" value={password} />
-                  <Button buttonName="btn login-btn" buttonContent="sign in" onclick={this.handleSignIn} />
-                </form>
+                  <Button buttonName="btn login-btn" buttonContent="sign in" handler={this.handleSignIn} />
+                  {/* <button className="btn login-btn" onClick={this.handleSignIn}>sign in</button> */}
+                </div>
               </div>
             </div>
         );

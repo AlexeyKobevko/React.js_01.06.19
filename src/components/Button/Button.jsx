@@ -7,9 +7,9 @@ import PropTypes from 'prop-types';
 
 export class Button extends Component {
     render() {
-        const { buttonName, buttonContent } = this.props;
+        const { buttonName, buttonContent, handler } = this.props;
         return (
-            <button className={buttonName}>{buttonContent}</button>
+            <button className={buttonName} onClick={handler} >{buttonContent}</button>
         );
     }
 }

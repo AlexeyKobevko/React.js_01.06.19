@@ -11,10 +11,10 @@ mongoose.connect(`mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${proc
 const app = express();
 
 const verifyToken = (req, res, next) => {
-  if(req.headers.authorization) {
+  if (req.headers.authorization) {
     const [type, token] = req.headers.authorization.split(' ');
     jwt.verify(token, 'secret', (err, decoded) => {
-      if(err) {
+      if (err) {
         res.status(401).json({ message: 'Wrong token' });
       }
       req.user = decoded;
@@ -34,16 +34,16 @@ app.use(cors());
 app.post('/auth', async (req, res) => {
   const { username, password } = req.body;
 
-  const user = await User.find({email: username, password}).lean();
-  if(user) {
-    delete user.password;
+  let user = await User.findOne({ email: username, password }).lean();
+  if (user) {
     const token = jwt.sign({
       _id: user._id,
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
     }, 'secret');
-    res.json({ token });
+    delete user.password;
+    res.json({ token, user });
   } else {
     res.status(401).json({ message: 'Wrong credentials' });
   }
@@ -53,7 +53,12 @@ app.all('/api*', verifyToken);
 
 app.get('/api/photos', async (req, res) => {
   const { page = 1, limit = 15 } = req.query;
-  const photos = await Picture.find().skip(limit * (page - 1)).limit(limit);
+  const photos = await Picture.find()
+    .populate([
+      'comments.user',
+      'likes.user',
+      'owner'
+    ]).skip(limit * (page - 1)).limit(limit);
   const total = await Picture.countDocuments();
   res.json({
     page,
@@ -62,9 +67,25 @@ app.get('/api/photos', async (req, res) => {
   });
 });
 
+app.get('/api/users/:id', async (req, res) => {
+  let user = await User.findById(req.params.id);
+  user = user.toObject();
+
+  // удаляем пароль
+  delete user.password;
+
+  res.json(user);
+});
+
 app.get('/api/photos/:owner', async (req, res) => {
   const { page = 1, limit = 15 } = req.query;
-  const photos = await Picture.find({ owner: req.params.owner }).skip(limit * (page - 1)).limit(limit);
+  const photos = await Picture.find({ owner: req.params.owner })
+    .populate([
+      'comments.user',
+      'likes.user',
+      'owner'
+    ])
+    .skip(limit * (page - 1)).limit(limit);
   const total = await Picture.countDocuments({ owner: req.params.owner })
   res.json({
     page,

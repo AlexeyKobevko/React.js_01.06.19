@@ -5,32 +5,49 @@ import './assets/global.scss';
 import React, { Component } from 'react';
 import ReactDom from 'react-dom';
 
-import { Gallery } from './components/Gallery';
-import { Profile } from './components/Profile';
-import { Auth } from './components/Auth';
-import { Counter } from './components/Counter';
-import { Timer } from './components/Timer';
+import { GalleryContainer } from 'containers/GalleryContainer';
+import { Profile } from 'components/Profile';
+import { Auth } from 'components/Auth';
+import { Modal } from 'components/Modal';
 
 class App extends Component {
-    state = { token: null };
+    state = { token: localStorage.getItem('token'), isModalVisible: false };
 
     handleTogleClick = () => {
         this.setState(prevState => ({ visible: !prevState.visible }));
     }
 
     handleSuccess = (token) => {
-        this.setState({token});
+        this.setState({token}, () => {
+            localStorage.setItem('token', token);
+        });
+    }
+
+    handleSignOut = (event) => {
+        this.setState({'token': ''}, () => {
+            localStorage.setItem('token', null);
+        });
+        event.preventDefault();
+    }
+
+    handleModalClose = () => {
+        this.setState({
+            isModalVisible: false,
+        });
     }
 
     render() {
-        const { token } = this.state;
+        const { token, isModalVisible } = this.state;
         return (
             <main>
+                <button onClick={this.handleSignOut}>Sign out</button>
                 {!token && <Auth onSuccess={this.handleSuccess} />}
                 {token && <div className="container">
-                    <Profile />
-                    <Gallery token={token} />
-                </div>}
+                            <Profile />
+                            <GalleryContainer token={token} />
+                        </div>
+                }
+                {isModalVisible && <Modal onClose={this.handleModalClose} title="Hi from modal" visible />}
             </main>
         );
     }

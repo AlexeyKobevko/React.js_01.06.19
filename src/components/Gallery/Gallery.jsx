@@ -2,39 +2,44 @@
 
 import './Gallery.scss';
 
-import React, { Component, Fragment } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { ImageBox } from '../ImageBox';
+import { ImageBox } from 'components/ImageBox';
 
-export class Gallery extends Component {
-    state = { pictures: []}
+export function Gallery(props) {
 
-    componentDidMount() {
-        const { token } = this.props;
+    const { pictures, renderItem, onScroll } = props;
 
-        fetch('http://localhost:8888/api/photos', {
-            headers: {
-                'Content-type': 'application/json',
-                'authorization': `Bearer ${token}`,
-            },
-        })
-            .then(respons => respons.json())
-            .then(data => {
-                this.setState({ pictures: data.photos
-                    .map(photo => ({ image: photo.image, likes: photo.likes.length, comments: photo.comments.length })) });
-            });
-    }
+    const handleScroll = () => {
+        if(window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) {
+          return;
+        }
 
-    render() {
-        const { pictures } = this.state;
+        if(typeof onScroll === 'function') {
+          onScroll();
+        }
+      }
+
+      useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
+
+    const renderItemDefault = (picture) => {
         return (
-            <Fragment>
-            {pictures.length === 0 && <span>Loading...</span>}
-            {pictures.length > 0 && <div className="gallery">
-                {pictures.map((picture, idx) => <ImageBox key={idx} {...picture} />)}
-            </div>}
-            </Fragment>
+            <ImageBox key={picture.id} {...picture} />
         );
     }
+
+    return (
+        <div className="container">
+            <div className="gallery">
+                {pictures.map(renderItem ? renderItem : renderItemDefault)}
+            </div>
+        </div>
+    );
 }
+
+//TODO prop-types

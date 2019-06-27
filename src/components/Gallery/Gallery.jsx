@@ -2,7 +2,7 @@
 
 import './Gallery.scss';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { ImageBox } from 'components/ImageBox';
@@ -27,7 +27,7 @@ export function Gallery(props) {
         return () => window.removeEventListener('scroll', handleScroll);
       }, []);
 
-    const renderItemDefault = (picture) => {
+      const renderItemDefault = (picture) => {
         return (
             <ImageBox key={picture.id} {...picture} />
         );

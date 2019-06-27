@@ -2,9 +2,10 @@ import React, { Component, Fragment } from 'react';
 
 import { Gallery } from 'components/Gallery';
 import { Loading } from 'components/Loading';
+import { Modal } from 'components/Modal';
 
 export class GalleryContainer extends Component {
-    state = { pictures: [], loading: false, page: 1, total: null }
+    state = { pictures: [], loading: false, page: 1, total: null, isModalVisible: false }
 
     componentDidMount() {
         this.loadItems();
@@ -57,9 +58,10 @@ export class GalleryContainer extends Component {
     }
 
     render() {
-        const { pictures, loading } = this.state;
+        const { pictures, loading, isModalVisible } = this.state;
         return (
             <Fragment>
+                {isModalVisible && <Modal onClose={1} />}
                 {pictures.length > 0 && <Gallery onScroll={this.handleScroll} pictures={pictures} />}
                 {loading && <Loading />}
             </Fragment>

@@ -9,9 +9,9 @@ import { Comments } from '../Comments';
 
 export class ImageBox extends Component {
     render() {
-        const { image, likes, comments } = this.props;
+        const { image, likes, comments, handler } = this.props;
         return (
-            <div className="gallery-item" tabIndex="0">
+            <div className="gallery-item" onClick={handler} tabIndex="0">
                 <img src={image} className="gallery-image" alt="" />
                     <div className="gallery-item-info">
                         <ul>

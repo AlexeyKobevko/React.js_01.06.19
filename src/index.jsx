@@ -40,7 +40,7 @@ class App extends Component {
         const { token, isModalVisible } = this.state;
         return (
             <main>
-                <button onClick={this.handleSignOut}>Sign out</button>
+                <button className="btn profile-edit-btn" onClick={this.handleSignOut}>Sign out</button>
                 {!token && <Auth onSuccess={this.handleSuccess} />}
                 {token && <div className="container">
                             <Profile />

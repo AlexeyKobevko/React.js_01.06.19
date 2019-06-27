@@ -7,6 +7,10 @@ import { Modal } from 'components/Modal';
 export class GalleryContainer extends Component {
     state = { pictures: [], loading: false, page: 1, total: null, isModalVisible: false }
 
+    handleTogleClick = () => {
+        this.setState(prevState => ({ visible: !prevState.visible }));
+    }
+
     componentDidMount() {
         this.loadItems();
     }
@@ -57,12 +61,22 @@ export class GalleryContainer extends Component {
         }
     }
 
+    handleModalClose = () => {
+        this.setState({
+            isModalVisible: false,
+        });
+    }
+
+    handleModalOpen = () => {
+        console.log('It work!');
+    }
+
     render() {
         const { pictures, loading, isModalVisible } = this.state;
         return (
             <Fragment>
-                {isModalVisible && <Modal onClose={1} />}
-                {pictures.length > 0 && <Gallery onScroll={this.handleScroll} pictures={pictures} />}
+                {isModalVisible && <Modal onClose={this.handleModalClose} title="Hi from modal" visible />}
+                {pictures.length > 0 && <Gallery handler={this.handleModalOpen} onScroll={this.handleScroll} pictures={pictures} />}
                 {loading && <Loading />}
             </Fragment>
         );

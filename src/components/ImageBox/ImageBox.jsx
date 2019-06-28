@@ -12,7 +12,7 @@ export class ImageBox extends Component {
         const { image, likes, comments, id, handler } = this.props;
         return (
             <div className="gallery-item" onClick={handler} tabIndex="0">
-                <img src={image} className="gallery-image" data-id={id}alt="" />
+                <img src={image} className="gallery-image" data-id={id} alt="" />
                     <div className="gallery-item-info">
                         <ul>
                             <Likes likes={likes} />

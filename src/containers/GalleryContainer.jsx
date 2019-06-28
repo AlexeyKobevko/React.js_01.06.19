@@ -33,7 +33,8 @@ export class GalleryContainer extends Component {
                     page: prevState.page +1,
                     total: data.total,
                     pictures: prevState.pictures.concat(
-                        data.photos.map(photo => ({ id: photo._id, image: photo.image, likes: photo.likes.length, comments: photo.comments.length }))
+                        data.photos.map(photo => 
+                            ({ id: photo._id, image: photo.image, likes: photo.likes.length, comments: photo.comments.length }))
                       ),
                 }));
             })
@@ -67,23 +68,25 @@ export class GalleryContainer extends Component {
         });
     }
 
-    handleModalOpen = () => {
+    handleModalOpen = (event) => {
         this.setState({
             isModalVisible: true,
         });
-        console.log('It work!');
-
+        console.log(this.state.pictures[0].image);
+        console.log(event.currentTarget);
     }
 
     getImage = () => {
-
+        return (
+            <img href={this.state.pictures[0].image} />
+        )
     }
 
     render() {
         const { pictures, loading, isModalVisible } = this.state;
         return (
             <Fragment>
-                {isModalVisible && <Modal onClose={this.handleModalClose} title="" visible />}
+                {isModalVisible && <Modal onClose={this.handleModalClose} children={this.getImage} visible />}
                 {pictures.length > 0 && <Gallery handler={this.handleModalOpen} onScroll={this.handleScroll} pictures={pictures} />}
                 {loading && <Loading />}
             </Fragment>

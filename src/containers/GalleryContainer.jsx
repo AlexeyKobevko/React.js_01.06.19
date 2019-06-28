@@ -68,14 +68,22 @@ export class GalleryContainer extends Component {
     }
 
     handleModalOpen = () => {
+        this.setState({
+            isModalVisible: true,
+        });
         console.log('It work!');
+
+    }
+
+    getImage = () => {
+
     }
 
     render() {
         const { pictures, loading, isModalVisible } = this.state;
         return (
             <Fragment>
-                {isModalVisible && <Modal onClose={this.handleModalClose} title="Hi from modal" visible />}
+                {isModalVisible && <Modal onClose={this.handleModalClose} title="" visible />}
                 {pictures.length > 0 && <Gallery handler={this.handleModalOpen} onScroll={this.handleScroll} pictures={pictures} />}
                 {loading && <Loading />}
             </Fragment>

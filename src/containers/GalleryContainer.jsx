@@ -78,7 +78,7 @@ export class GalleryContainer extends Component {
 
     getImage = () => {
         return (
-            <img href={this.state.pictures[0].image} />
+            <img src={this.state.pictures[0].image} />
         )
     }
 
@@ -86,7 +86,9 @@ export class GalleryContainer extends Component {
         const { pictures, loading, isModalVisible } = this.state;
         return (
             <Fragment>
-                {isModalVisible && <Modal onClose={this.handleModalClose} children={this.getImage} visible />}
+                {isModalVisible && <Modal onClose={this.handleModalClose} visible >
+                    <img src={this.state.pictures[0].image} />
+                </Modal>}
                 {pictures.length > 0 && <Gallery handler={this.handleModalOpen} onScroll={this.handleScroll} pictures={pictures} />}
                 {loading && <Loading />}
             </Fragment>

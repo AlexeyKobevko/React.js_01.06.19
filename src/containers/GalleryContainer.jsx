@@ -12,6 +12,7 @@ export class GalleryContainer extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props, this.context);
         this.loadItems();
     }
 
@@ -23,7 +24,7 @@ export class GalleryContainer extends Component {
         fetch(`http://localhost:8888/api/photos?page=${page}`, {
             headers: {
                 'Content-type': 'application/json',
-                'authorization': `Bearer ${token}`,
+                'authorization': `Bearer ${localStorage.getItem('token')}`,
             },
         })
             .then(respons => respons.json())
@@ -72,8 +73,6 @@ export class GalleryContainer extends Component {
         this.setState({
             isModalVisible: true,
         });
-        console.log(this.state.pictures[0].image);
-        console.log(event.currentTarget);
     }
 
     getImage = () => {

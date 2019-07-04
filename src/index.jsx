@@ -4,6 +4,7 @@ import './assets/global.scss';
 
 import React, { Component } from 'react';
 import ReactDom from 'react-dom';
+import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 
 import { GalleryContainer } from 'containers/GalleryContainer';
 import { Profile } from 'components/Profile';
@@ -41,16 +42,24 @@ class App extends Component {
         return (
             <main>
                 <button className="btn profile-edit-btn" onClick={this.handleSignOut}>Sign out</button>
-                {!token && <Auth onSuccess={this.handleSuccess} />}
+                <Switch>
+                    <Route path="/" component={GalleryContainer} exact />
+                    <Route path="/auth" render={() => <Auth onSuccess={this.handleSuccess} />} exact />
+                </Switch>
+                {/* {!token && <Auth onSuccess={this.handleSuccess} />}
                 {token && <div className="container">
                             <Profile />
                             <GalleryContainer token={token} />
                         </div>
-                }
+                } */}
                 {isModalVisible && <Modal onClose={this.handleModalClose} title="Hi from modal" visible />}
             </main>
         );
     }
 }
 
-ReactDom.render(<App />, document.getElementById('root'));
+ReactDom.render(
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>, 
+    document.getElementById('root'));

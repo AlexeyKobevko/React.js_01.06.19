@@ -19,26 +19,26 @@ class App extends Component {
 
     handleTogleClick = () => {
         this.setState(prevState => ({ visible: !prevState.visible }));
-    }
+    };
 
     handleSuccess = (token) => {
         this.setState({token}, () => {
             localStorage.setItem('token', token);
         });
-    }
+    };
 
     handleSignOut = (event) => {
         this.setState({'token': ''}, () => {
             localStorage.setItem('token', null);
         });
         event.preventDefault();
-    }
+    };
 
     handleModalClose = () => {
         this.setState({
             isModalVisible: false,
         });
-    }
+    };
 
     render() {
         const { token, isModalVisible } = this.state;
@@ -46,9 +46,9 @@ class App extends Component {
             <main>
                 <button className="btn profile-edit-btn" onClick={this.handleSignOut}>Sign out</button>
                 <Switch>
-                    <Route path="/" component={GalleryContainer} exact />
+                    <Route path="/posts" component={GalleryContainer} />
                     <Route path="/auth" render={() => <Auth onSuccess={this.handleSuccess} />} exact />
-                    <Route path="/posts/:id" component={PostContainer} />
+                    {/*<Route path="/posts/:id" component={PostContainer} />*/}
                 </Switch>
                 {/* {!token && <Auth onSuccess={this.handleSuccess} />}
                 {token && <div className="container">

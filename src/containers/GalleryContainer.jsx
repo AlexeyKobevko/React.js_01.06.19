@@ -1,15 +1,17 @@
 import React, { Component, Fragment } from 'react';
+import { Switch, Route } from 'react-router-dom';
 
 import { Gallery } from 'components/Gallery';
 import { Loading } from 'components/Loading';
 import { Modal } from 'components/Modal';
+import { PostContainer } from "containers/PostContainer";
 
 export class GalleryContainer extends Component {
-    state = { pictures: [], loading: false, page: 1, total: null, isModalVisible: false }
+    state = { pictures: [], loading: false, page: 1, total: null, isModalVisible: false };
 
     handleTogleClick = () => {
         this.setState(prevState => ({ visible: !prevState.visible }));
-    }
+    };
 
     componentDidMount() {
         if (!localStorage.getItem('token') || localStorage.getItem('token') === 'null') {
@@ -44,53 +46,48 @@ export class GalleryContainer extends Component {
             .catch(() => {
                 this.setState({ loading: false });
             });
-    }
+    };
 
     renderItem = (picture) => {
         return (
-          <div><img src={picture.image} /></div>
+          <div><img src={picture.image} alt=""/></div>
         )
-    }
+    };
 
     shouldWeLoad = () => {
-        const { state, pictures, loading, total} = this.state;
+        const { pictures, loading, total} = this.state;
 
         return (total != null || total > pictures.length) && !loading;
-    }
+    };
 
     handleScroll = () => {
 
         if (this.shouldWeLoad()) {
             this.loadItems();
         }
-    }
+    };
 
     handleModalClose = () => {
         this.setState({
             isModalVisible: false,
         });
-    }
+    };
 
-    handleModalOpen = (event) => {
+    handleModalOpen = () => {
         this.setState({
             isModalVisible: true,
         });
-    }
-
-    getImage = () => {
-        return (
-            <img src={this.state.pictures[0].image} />
-        )
-    }
+    };
 
     render() {
         const { pictures, loading, isModalVisible } = this.state;
         return (
             <Fragment>
                 {isModalVisible && <Modal onClose={this.handleModalClose} visible >
-                    <img src={this.state.pictures[0].image} />
+                    <img src={this.state.pictures[0].image} alt=""/>
                 </Modal>}
                 {pictures.length > 0 && <Gallery handler={this.handleModalOpen} onScroll={this.handleScroll} pictures={pictures} />}
+                <Route path="/posts/:id" component={PostContainer} />
                 {loading && <Loading />}
             </Fragment>
         );

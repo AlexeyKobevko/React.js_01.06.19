@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
 
+import { Modal } from 'components/Modal';
+
 export class PostContainer extends Component {
     constructor(props) {
         super(props);
@@ -8,7 +10,7 @@ export class PostContainer extends Component {
     }
 
     render() {
-        console.log(this.props);
+        console.log(this.props.match.params.id);
         
         return (
             <Fragment>

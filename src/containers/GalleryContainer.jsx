@@ -83,9 +83,9 @@ export class GalleryContainer extends Component {
         const { pictures, loading, isModalVisible } = this.state;
         return (
             <Fragment>
-                {isModalVisible && <Modal onClose={this.handleModalClose} visible >
+                {/* {isModalVisible && <Modal onClose={this.handleModalClose} visible >
                     <img src={this.state.pictures[0].image} alt=""/>
-                </Modal>}
+                </Modal>} */}
                 {pictures.length > 0 && <Gallery handler={this.handleModalOpen} onScroll={this.handleScroll} pictures={pictures} />}
                 <Route path="/posts/:id" component={PostContainer} />
                 {loading && <Loading />}

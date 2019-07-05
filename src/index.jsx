@@ -7,10 +7,12 @@ import ReactDom from 'react-dom';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 
 import { GalleryContainer } from 'containers/GalleryContainer';
-import { PostContainer } from 'containers/PostContainer';
+import { PostContainer } from "containers/PostContainer";
 import { Profile } from 'components/Profile';
 import { Auth } from 'components/Auth';
 import { Modal } from 'components/Modal';
+
+// Claudie_Friesen@yahoo.com
 
 class App extends Component {
     state = { token: localStorage.getItem('token'), isModalVisible: false };

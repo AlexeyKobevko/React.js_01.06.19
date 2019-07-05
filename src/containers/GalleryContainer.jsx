@@ -12,7 +12,9 @@ export class GalleryContainer extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props, this.context);
+        if (!localStorage.getItem('token') || localStorage.getItem('token') === 'null') {
+            return this.props.history.replace('/auth');
+        }
         this.loadItems();
     }
 

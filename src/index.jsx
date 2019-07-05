@@ -7,6 +7,7 @@ import ReactDom from 'react-dom';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 
 import { GalleryContainer } from 'containers/GalleryContainer';
+import { PostContainer } from 'containers/PostContainer';
 import { Profile } from 'components/Profile';
 import { Auth } from 'components/Auth';
 import { Modal } from 'components/Modal';
@@ -45,6 +46,7 @@ class App extends Component {
                 <Switch>
                     <Route path="/" component={GalleryContainer} exact />
                     <Route path="/auth" render={() => <Auth onSuccess={this.handleSuccess} />} exact />
+                    <Route path="/posts/:id" component={PostContainer} />
                 </Switch>
                 {/* {!token && <Auth onSuccess={this.handleSuccess} />}
                 {token && <div className="container">

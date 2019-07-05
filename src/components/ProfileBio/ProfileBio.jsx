@@ -7,11 +7,11 @@ import PropTypes from 'prop-types';
 
 export class ProfileBio extends Component {
     render() {
-        const { firstName, lastName, losung } = this.props;
+        const { firstName, lastName, bio } = this.props;
         return (
             <div className="profile-bio">
                 <p>
-                    <span className="profile-real-name">{firstName} {lastName}</span> {losung}
+                    <span className="profile-real-name">{firstName} {lastName}</span> {bio}
                 </p>
             </div>
         );
@@ -21,5 +21,5 @@ export class ProfileBio extends Component {
 ProfileBio.propTypes = {
     firstName: PropTypes.string,
     lastName: PropTypes.string,
-    losung: PropTypes.string,
+    bio: PropTypes.string,
 };

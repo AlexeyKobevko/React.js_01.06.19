@@ -1,0 +1,20 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba($color: #000000, $alpha: 0.7);
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .modal {
+      margin: 50px auto;
+      background-color: rgb(207, 206, 206);
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }

@@ -5,12 +5,14 @@ import './assets/global.scss';
 import React, { Component } from 'react';
 import ReactDom from 'react-dom';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
 import { GalleryContainer } from 'containers/GalleryContainer';
 import { PostContainer } from "containers/PostContainer";
 import { Profile } from 'components/Profile';
 import { Auth } from 'components/Auth';
 import { Modal } from 'components/Modal';
+import { store } from './store.js';
 
 // Claudie_Friesen@yahoo.com
 
@@ -42,6 +44,7 @@ class App extends Component {
 
     render() {
         const { token, isModalVisible } = this.state;
+
         return (
             <main>
                 <button className="btn profile-edit-btn" onClick={this.handleSignOut}>Sign out</button>
@@ -63,7 +66,9 @@ class App extends Component {
 }
 
 ReactDom.render(
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>, 
+    <Provider store={store}>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+    </Provider>,
     document.getElementById('root'));

@@ -6,11 +6,12 @@ export const loadStart = createAction('[Pictures] Load start');
 export const dataRecieved = createAction('[Pictures] Data recieved');
 export const errorOccured = createAction('[Pictures] Error occured');
 
-export const load = (dispatch) => {
+export const load = () => (dispatch, getState) => {
+    const state = getState();
 
-    dispatch(loadStart);
+    dispatch(loadStart());
 
-    fetch(`http://localhost:8888/api/photos`, {
+    fetch(`http://localhost:8888/api/photos?page=${state.pictures.page}`, {
             headers: {
                 'Content-type': 'application/json',
                 'authorization': `Bearer ${localStorage.getItem('token')}`,

@@ -8,6 +8,7 @@ const initialState = {
     loading: false,
     error: false,
     entries: [],
+    page: 1,
 };
 
 export const reducer = handleActions({
@@ -25,6 +26,7 @@ export const reducer = handleActions({
                 data.photos.map(photo =>
                     ({ id: photo._id, image: photo.image, likes: photo.likes.length, comments: photo.comments.length }))
             ),
+            page: state.page + 1,
             loading: false,
         };
     },

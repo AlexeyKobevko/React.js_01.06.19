@@ -1,4 +1,4 @@
-/*jshint esversion: 8 */
+/*jshint esversion: 8*/
 
 import React, { Component, Fragment } from 'react';
 import { Switch, Route } from 'react-router-dom';
@@ -15,6 +15,15 @@ class GalleryUnmounted extends Component {
 componentDidMount() {
     const { loadImages } = this.props;
     loadImages();
+}
+
+handleScroll = () => {
+    const { loadImages, loading } = this.props;
+
+    if (!loading) {
+        loadImages();
+    }
+    
 }
 
     render() {
@@ -41,7 +50,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch, props) {
     return {
-        loadImages: () => load(dispatch),
+        loadImages: () => dispatch(load()),
     }
 }
 

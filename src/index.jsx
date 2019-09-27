@@ -12,7 +12,8 @@ import { PostContainer } from "containers/PostContainer";
 import { Profile } from 'components/Profile';
 import { Auth } from 'components/Auth';
 import { Modal } from 'components/Modal';
-import { store } from './store.js';
+import { store, persistor } from './store.js';
+import { PersistGate } from 'redux-persist/integration/react';
 
 // Claudie_Friesen@yahoo.com
 
@@ -67,8 +68,10 @@ class App extends Component {
 
 ReactDom.render(
     <Provider store={store}>
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
+        <PersistGate loading={null} persistor={persistor}>
+            <BrowserRouter>
+                <App />
+            </BrowserRouter>
+        </PersistGate>
     </Provider>,
     document.getElementById('root'));
